@@ -115,7 +115,7 @@ for crd in crds:
     if file_name == "middlewares":
         rust_code = rust_code.replace(
             "pub struct MiddlewareSpec {",
-            'pub struct MiddlewareSpec {\n/// Plugin defines the middleware plugin configuration. More info: https://doc.traefik.io/traefik/plugins/\n#[serde(default, skip_serializing_if = "Option::is_none")]\n#[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]\nplugin: Option<BTreeMap<String, serde_json::Value>>,',
+            'pub struct MiddlewareSpec {\n/// Plugin defines the middleware plugin configuration. More info: https://doc.traefik.io/traefik/plugins/\n#[serde(default, skip_serializing_if = "Option::is_none")]\n#[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]\npub plugin: Option<BTreeMap<String, serde_json::Value>>,',
         )
     rust_file = f"./src/{file_name}.rs"
     with open(rust_file, "w") as f:

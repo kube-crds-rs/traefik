@@ -27,7 +27,7 @@ pub struct MiddlewareSpec {
     /// Plugin defines the middleware plugin configuration. More info: https://doc.traefik.io/traefik/plugins/
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
-    plugin: Option<BTreeMap<String, serde_json::Value>>,
+    pub plugin: Option<BTreeMap<String, serde_json::Value>>,
     /// AddPrefix holds the add prefix middleware configuration. This middleware updates the path of a request before forwarding it. More info: https://doc.traefik.io/traefik/v3.0/middlewares/http/addprefix/
     #[serde(default, skip_serializing_if = "Option::is_none", rename = "addPrefix")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]

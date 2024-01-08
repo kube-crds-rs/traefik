@@ -188,7 +188,7 @@ dependencies = [
 
 [[package]]
 name = "k8s-crds-traefik"
-version = "0.1.4"
+version = "0.1.5"
 dependencies = [
  "k8s-openapi",
  "kube",
