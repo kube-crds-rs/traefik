@@ -41,7 +41,7 @@ pub struct MiddlewareTCPSpec {
 }
 
 /// InFlightConn defines the InFlightConn middleware configuration.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct MiddlewareTCPInFlightConn {
@@ -52,7 +52,7 @@ pub struct MiddlewareTCPInFlightConn {
 }
 
 /// IPAllowList defines the IPAllowList middleware configuration.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct MiddlewareTCPIpAllowList {

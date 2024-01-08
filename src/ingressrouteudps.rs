@@ -37,7 +37,7 @@ pub struct IngressRouteUDPSpec {
 }
 
 /// RouteUDP holds the UDP route configuration.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct IngressRouteUDPRoutes {
@@ -48,7 +48,7 @@ pub struct IngressRouteUDPRoutes {
 }
 
 /// ServiceUDP defines an upstream UDP service to proxy traffic to.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct IngressRouteUDPRoutesServices {

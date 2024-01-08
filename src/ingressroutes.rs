@@ -41,7 +41,7 @@ pub struct IngressRouteSpec {
 }
 
 /// Route holds the HTTP route configuration.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct IngressRouteRoutes {
@@ -65,14 +65,15 @@ pub struct IngressRouteRoutes {
 }
 
 /// Route holds the HTTP route configuration.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub enum IngressRouteRoutesKind {
+    #[default]
     Rule,
 }
 
 /// MiddlewareRef is a reference to a Middleware resource.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct IngressRouteRoutesMiddlewares {
@@ -85,7 +86,7 @@ pub struct IngressRouteRoutesMiddlewares {
 }
 
 /// Service defines an upstream HTTP service to proxy traffic to.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct IngressRouteRoutesServices {
@@ -150,7 +151,7 @@ pub struct IngressRouteRoutesServices {
 }
 
 /// Service defines an upstream HTTP service to proxy traffic to.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub enum IngressRouteRoutesServicesKind {
     Service,
@@ -158,7 +159,7 @@ pub enum IngressRouteRoutesServicesKind {
 }
 
 /// ResponseForwarding defines how Traefik forwards the response from the upstream Kubernetes Service to the client.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct IngressRouteRoutesServicesResponseForwarding {
@@ -173,7 +174,7 @@ pub struct IngressRouteRoutesServicesResponseForwarding {
 }
 
 /// Sticky defines the sticky sessions configuration. More info: https://doc.traefik.io/traefik/v3.0/routing/services/#sticky-sessions
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct IngressRouteRoutesServicesSticky {
@@ -184,7 +185,7 @@ pub struct IngressRouteRoutesServicesSticky {
 }
 
 /// Cookie defines the sticky cookie configuration.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct IngressRouteRoutesServicesStickyCookie {
@@ -207,7 +208,7 @@ pub struct IngressRouteRoutesServicesStickyCookie {
 }
 
 /// TLS defines the TLS configuration. More info: https://doc.traefik.io/traefik/v3.0/routing/routers/#tls
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct IngressRouteTls {
@@ -242,7 +243,7 @@ pub struct IngressRouteTls {
 }
 
 /// Domain holds a domain name with SANs.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct IngressRouteTlsDomains {
@@ -257,7 +258,7 @@ pub struct IngressRouteTlsDomains {
 }
 
 /// Options defines the reference to a TLSOption, that specifies the parameters of the TLS connection. If not defined, the `default` TLSOption is used. More info: https://doc.traefik.io/traefik/v3.0/https/tls/#tls-options
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct IngressRouteTlsOptions {
@@ -270,7 +271,7 @@ pub struct IngressRouteTlsOptions {
 }
 
 /// Store defines the reference to the TLSStore, that will be used to store certificates. Please note that only `default` TLSStore can be used.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct IngressRouteTlsStore {

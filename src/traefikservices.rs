@@ -34,7 +34,7 @@ pub struct TraefikServiceSpec {
 }
 
 /// Mirroring defines the Mirroring service configuration.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct TraefikServiceMirroring {
@@ -111,7 +111,7 @@ pub struct TraefikServiceMirroring {
 }
 
 /// Mirroring defines the Mirroring service configuration.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub enum TraefikServiceMirroringKind {
     Service,
@@ -119,7 +119,7 @@ pub enum TraefikServiceMirroringKind {
 }
 
 /// MirrorService holds the mirror configuration.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct TraefikServiceMirroringMirrors {
@@ -188,7 +188,7 @@ pub struct TraefikServiceMirroringMirrors {
 }
 
 /// MirrorService holds the mirror configuration.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub enum TraefikServiceMirroringMirrorsKind {
     Service,
@@ -196,7 +196,7 @@ pub enum TraefikServiceMirroringMirrorsKind {
 }
 
 /// ResponseForwarding defines how Traefik forwards the response from the upstream Kubernetes Service to the client.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct TraefikServiceMirroringMirrorsResponseForwarding {
@@ -211,7 +211,7 @@ pub struct TraefikServiceMirroringMirrorsResponseForwarding {
 }
 
 /// Sticky defines the sticky sessions configuration. More info: https://doc.traefik.io/traefik/v3.0/routing/services/#sticky-sessions
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct TraefikServiceMirroringMirrorsSticky {
@@ -222,7 +222,7 @@ pub struct TraefikServiceMirroringMirrorsSticky {
 }
 
 /// Cookie defines the sticky cookie configuration.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct TraefikServiceMirroringMirrorsStickyCookie {
@@ -245,7 +245,7 @@ pub struct TraefikServiceMirroringMirrorsStickyCookie {
 }
 
 /// ResponseForwarding defines how Traefik forwards the response from the upstream Kubernetes Service to the client.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct TraefikServiceMirroringResponseForwarding {
@@ -260,7 +260,7 @@ pub struct TraefikServiceMirroringResponseForwarding {
 }
 
 /// Sticky defines the sticky sessions configuration. More info: https://doc.traefik.io/traefik/v3.0/routing/services/#sticky-sessions
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct TraefikServiceMirroringSticky {
@@ -271,7 +271,7 @@ pub struct TraefikServiceMirroringSticky {
 }
 
 /// Cookie defines the sticky cookie configuration.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct TraefikServiceMirroringStickyCookie {
@@ -294,7 +294,7 @@ pub struct TraefikServiceMirroringStickyCookie {
 }
 
 /// Weighted defines the Weighted Round Robin configuration.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct TraefikServiceWeighted {
@@ -309,7 +309,7 @@ pub struct TraefikServiceWeighted {
 }
 
 /// Service defines an upstream HTTP service to proxy traffic to.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct TraefikServiceWeightedServices {
@@ -374,7 +374,7 @@ pub struct TraefikServiceWeightedServices {
 }
 
 /// Service defines an upstream HTTP service to proxy traffic to.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub enum TraefikServiceWeightedServicesKind {
     Service,
@@ -382,7 +382,7 @@ pub enum TraefikServiceWeightedServicesKind {
 }
 
 /// ResponseForwarding defines how Traefik forwards the response from the upstream Kubernetes Service to the client.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct TraefikServiceWeightedServicesResponseForwarding {
@@ -397,7 +397,7 @@ pub struct TraefikServiceWeightedServicesResponseForwarding {
 }
 
 /// Sticky defines the sticky sessions configuration. More info: https://doc.traefik.io/traefik/v3.0/routing/services/#sticky-sessions
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct TraefikServiceWeightedServicesSticky {
@@ -408,7 +408,7 @@ pub struct TraefikServiceWeightedServicesSticky {
 }
 
 /// Cookie defines the sticky cookie configuration.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct TraefikServiceWeightedServicesStickyCookie {
@@ -431,7 +431,7 @@ pub struct TraefikServiceWeightedServicesStickyCookie {
 }
 
 /// Sticky defines whether sticky sessions are enabled. More info: https://doc.traefik.io/traefik/v3.0/routing/providers/kubernetes-crd/#stickiness-and-load-balancing
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct TraefikServiceWeightedSticky {
@@ -442,7 +442,7 @@ pub struct TraefikServiceWeightedSticky {
 }
 
 /// Cookie defines the sticky cookie configuration.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct TraefikServiceWeightedStickyCookie {

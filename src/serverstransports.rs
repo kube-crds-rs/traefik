@@ -94,7 +94,7 @@ pub struct ServersTransportSpec {
 }
 
 /// ForwardingTimeouts defines the timeouts for requests forwarded to the backend servers.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct ServersTransportForwardingTimeouts {
@@ -141,7 +141,7 @@ pub struct ServersTransportForwardingTimeouts {
 }
 
 /// Spiffe defines the SPIFFE configuration.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct ServersTransportSpiffe {

@@ -54,7 +54,7 @@ pub struct ServersTransportTCPSpec {
 }
 
 /// TLS defines the TLS configuration
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct ServersTransportTCPTls {
@@ -105,7 +105,7 @@ pub struct ServersTransportTCPTls {
 }
 
 /// Spiffe defines the SPIFFE configuration.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct ServersTransportTCPTlsSpiffe {

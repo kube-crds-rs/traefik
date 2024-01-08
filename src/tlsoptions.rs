@@ -77,7 +77,7 @@ pub struct TLSOptionSpec {
 }
 
 /// ClientAuth defines the server's policy for TLS Client Authentication.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct TLSOptionClientAuth {
@@ -100,7 +100,7 @@ pub struct TLSOptionClientAuth {
 }
 
 /// ClientAuth defines the server's policy for TLS Client Authentication.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub enum TLSOptionClientAuthClientAuthType {
     NoClientCert,

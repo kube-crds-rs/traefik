@@ -45,7 +45,7 @@ pub struct TLSStoreSpec {
 }
 
 /// Certificate holds a secret name for the TLSStore resource.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct TLSStoreCertificates {
@@ -55,7 +55,7 @@ pub struct TLSStoreCertificates {
 }
 
 /// DefaultCertificate defines the default certificate configuration.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct TLSStoreDefaultCertificate {
@@ -65,7 +65,7 @@ pub struct TLSStoreDefaultCertificate {
 }
 
 /// DefaultGeneratedCert defines the default generated certificate configuration.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct TLSStoreDefaultGeneratedCert {
@@ -80,7 +80,7 @@ pub struct TLSStoreDefaultGeneratedCert {
 }
 
 /// Domain is the domain definition for the DefaultCertificate.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct TLSStoreDefaultGeneratedCertDomain {
