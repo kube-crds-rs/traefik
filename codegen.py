@@ -69,6 +69,10 @@ for crd in crds:
             ", PartialEq, Default, TypedBuilder, JsonSchema)]\npub struct",
         )
         .replace(
+            ", TypedBuilder, JsonSchema)]\n#[kube",
+            ", PartialEq, Default, TypedBuilder, JsonSchema)]\n#[kube",
+        )
+        .replace(
             ", TypedBuilder, JsonSchema)]\npub enum",
             ", PartialEq, TypedBuilder, JsonSchema)]\npub enum",
         )

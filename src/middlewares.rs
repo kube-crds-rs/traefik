@@ -12,7 +12,7 @@ use std::collections::BTreeMap;
 use typed_builder::TypedBuilder;
 
 /// MiddlewareSpec defines the desired state of a Middleware.
-#[derive(CustomResource, Serialize, Deserialize, Clone, Debug)]
+#[derive(CustomResource, Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 #[cfg_attr(not(feature = "schemars"), kube(schema = "disabled"))]
