@@ -99,7 +99,7 @@ for crd in crds:
         f.write(rust_code)
     # Format the code
     subprocess.run(["rustfmt", rust_file])
-    rust_lib += f"mod {file_name};\npub use {file_name}::*;\n"
+    rust_lib += f"pub mod {file_name};\npub use {file_name}::*;\n"
 
 with open("./src/lib.rs", "w") as f:
     f.write(rust_lib)
