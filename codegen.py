@@ -63,17 +63,19 @@ for crd in crds:
         ]
     )
     # We're not setting PartialEq, Hash, Default with kopium because then rustfmt would insert a line break, which would make this script more complicated
-    rust_code = rust_code.replace(
-        ", TypedBuilder, JsonSchema)]\npub struct",
-        ", PartialEq, Default, TypedBuilder, JsonSchema)]\npub struct",
-    )
-    rust_code = rust_code.replace(
-        ", TypedBuilder, JsonSchema)]\npub enum",
-        ", PartialEq, TypedBuilder, JsonSchema)]\npub enum",
-    )
-    rust_code = rust_code.replace(
-        "#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, TypedBuilder, JsonSchema)]\npub enum IngressRouteRoutesKind {\n",
-        "#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default, TypedBuilder, JsonSchema)]\npub enum IngressRouteRoutesKind {\n#[default]\n",
+    rust_code = (
+        rust_code.replace(
+            ", TypedBuilder, JsonSchema)]\npub struct",
+            ", PartialEq, Default, TypedBuilder, JsonSchema)]\npub struct",
+        )
+        .replace(
+            ", TypedBuilder, JsonSchema)]\npub enum",
+            ", PartialEq, TypedBuilder, JsonSchema)]\npub enum",
+        )
+        .replace(
+            "#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, TypedBuilder, JsonSchema)]\npub enum IngressRouteRoutesKind {\n",
+            "#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default, TypedBuilder, JsonSchema)]\npub enum IngressRouteRoutesKind {\n#[default]\n",
+        )
     )
     rust_code = "\n".join(
         [
