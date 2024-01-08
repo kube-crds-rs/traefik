@@ -2,6 +2,9 @@
 name = "k8s-crds-traefik"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+description = "Kubernetes CRDs for Traefik"
+repository = "https://github.com/kube-crds-rs/traefik"
 
 [dependencies]
 k8s-openapi = "0.20.0"
