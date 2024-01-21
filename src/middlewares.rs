@@ -108,6 +108,14 @@ pub struct MiddlewareSpec {
     )]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub ip_allow_list: Option<MiddlewareIpAllowList>,
+    /// Deprecated: please use IPAllowList instead.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "ipWhiteList"
+    )]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub ip_white_list: Option<MiddlewareIpWhiteList>,
     /// PassTLSClientCert holds the pass TLS client cert middleware configuration. This middleware adds the selected data from the passed client TLS certificate to a header. More info: https://doc.traefik.io/traefik/v3.0/middlewares/http/passtlsclientcert/
     #[serde(
         default,
@@ -335,6 +343,14 @@ pub struct MiddlewareCompress {
     )]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub excluded_content_types: Option<Vec<String>>,
+    /// IncludedContentTypes defines the list of content types to compare the Content-Type header of the responses before compressing.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "includedContentTypes"
+    )]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub included_content_types: Option<Vec<String>>,
     /// MinResponseBodyBytes defines the minimum amount of bytes a response body must have to be compressed. Default: 1024.
     #[serde(
         default,
@@ -509,6 +525,10 @@ pub struct MiddlewareErrorsServiceStickyCookie {
     #[serde(default, skip_serializing_if = "Option::is_none", rename = "httpOnly")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub http_only: Option<bool>,
+    /// MaxAge indicates the number of seconds until the cookie expires. When set to a negative number, the cookie expires immediately. When set to zero, the cookie never expires.
+    #[serde(default, skip_serializing_if = "Option::is_none", rename = "maxAge")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub max_age: Option<i64>,
     /// Name defines the Cookie name.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
@@ -528,6 +548,14 @@ pub struct MiddlewareErrorsServiceStickyCookie {
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct MiddlewareForwardAuth {
+    /// AddAuthCookiesToResponse defines the list of cookies to copy from the authentication server response to the response.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "addAuthCookiesToResponse"
+    )]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub add_auth_cookies_to_response: Option<Vec<String>>,
     /// Address defines the authentication server address.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
@@ -909,6 +937,14 @@ pub struct MiddlewareIpAllowList {
     )]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub ip_strategy: Option<MiddlewareIpAllowListIpStrategy>,
+    /// RejectStatusCode defines the HTTP status code used for refused requests. If not set, the default is 403 (Forbidden).
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "rejectStatusCode"
+    )]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub reject_status_code: Option<i64>,
     /// SourceRange defines the set of allowed IPs (or ranges of allowed IPs by using CIDR notation).
     #[serde(
         default,
@@ -924,6 +960,48 @@ pub struct MiddlewareIpAllowList {
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct MiddlewareIpAllowListIpStrategy {
+    /// Depth tells Traefik to use the X-Forwarded-For header and take the IP located at the depth position (starting from the right).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub depth: Option<i64>,
+    /// ExcludedIPs configures Traefik to scan the X-Forwarded-For header and select the first IP not in the list.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "excludedIPs"
+    )]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub excluded_i_ps: Option<Vec<String>>,
+}
+
+/// Deprecated: please use IPAllowList instead.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
+#[cfg_attr(feature = "builder", derive(TypedBuilder))]
+#[cfg_attr(feature = "schemars", derive(JsonSchema))]
+pub struct MiddlewareIpWhiteList {
+    /// IPStrategy holds the IP strategy configuration used by Traefik to determine the client IP. More info: https://doc.traefik.io/traefik/v3.0/middlewares/http/ipallowlist/#ipstrategy
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "ipStrategy"
+    )]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub ip_strategy: Option<MiddlewareIpWhiteListIpStrategy>,
+    /// SourceRange defines the set of allowed IPs (or ranges of allowed IPs by using CIDR notation).
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "sourceRange"
+    )]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub source_range: Option<Vec<String>>,
+}
+
+/// IPStrategy holds the IP strategy configuration used by Traefik to determine the client IP. More info: https://doc.traefik.io/traefik/v3.0/middlewares/http/ipallowlist/#ipstrategy
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
+#[cfg_attr(feature = "builder", derive(TypedBuilder))]
+#[cfg_attr(feature = "schemars", derive(JsonSchema))]
+pub struct MiddlewareIpWhiteListIpStrategy {
     /// Depth tells Traefik to use the X-Forwarded-For header and take the IP located at the depth position (starting from the right).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]

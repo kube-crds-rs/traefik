@@ -230,6 +230,10 @@ pub struct TraefikServiceMirroringMirrorsStickyCookie {
     #[serde(default, skip_serializing_if = "Option::is_none", rename = "httpOnly")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub http_only: Option<bool>,
+    /// MaxAge indicates the number of seconds until the cookie expires. When set to a negative number, the cookie expires immediately. When set to zero, the cookie never expires.
+    #[serde(default, skip_serializing_if = "Option::is_none", rename = "maxAge")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub max_age: Option<i64>,
     /// Name defines the Cookie name.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
@@ -279,6 +283,10 @@ pub struct TraefikServiceMirroringStickyCookie {
     #[serde(default, skip_serializing_if = "Option::is_none", rename = "httpOnly")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub http_only: Option<bool>,
+    /// MaxAge indicates the number of seconds until the cookie expires. When set to a negative number, the cookie expires immediately. When set to zero, the cookie never expires.
+    #[serde(default, skip_serializing_if = "Option::is_none", rename = "maxAge")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub max_age: Option<i64>,
     /// Name defines the Cookie name.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
@@ -416,6 +424,10 @@ pub struct TraefikServiceWeightedServicesStickyCookie {
     #[serde(default, skip_serializing_if = "Option::is_none", rename = "httpOnly")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub http_only: Option<bool>,
+    /// MaxAge indicates the number of seconds until the cookie expires. When set to a negative number, the cookie expires immediately. When set to zero, the cookie never expires.
+    #[serde(default, skip_serializing_if = "Option::is_none", rename = "maxAge")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub max_age: Option<i64>,
     /// Name defines the Cookie name.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
@@ -450,6 +462,10 @@ pub struct TraefikServiceWeightedStickyCookie {
     #[serde(default, skip_serializing_if = "Option::is_none", rename = "httpOnly")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub http_only: Option<bool>,
+    /// MaxAge indicates the number of seconds until the cookie expires. When set to a negative number, the cookie expires immediately. When set to zero, the cookie never expires.
+    #[serde(default, skip_serializing_if = "Option::is_none", rename = "maxAge")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub max_age: Option<i64>,
     /// Name defines the Cookie name.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]

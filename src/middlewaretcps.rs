@@ -38,6 +38,14 @@ pub struct MiddlewareTCPSpec {
     )]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub ip_allow_list: Option<MiddlewareTCPIpAllowList>,
+    /// IPWhiteList defines the IPWhiteList middleware configuration. Deprecated: please use IPAllowList instead.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "ipWhiteList"
+    )]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub ip_white_list: Option<MiddlewareTCPIpWhiteList>,
 }
 
 /// InFlightConn defines the InFlightConn middleware configuration.
@@ -56,6 +64,21 @@ pub struct MiddlewareTCPInFlightConn {
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct MiddlewareTCPIpAllowList {
+    /// SourceRange defines the allowed IPs (or ranges of allowed IPs by using CIDR notation).
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "sourceRange"
+    )]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub source_range: Option<Vec<String>>,
+}
+
+/// IPWhiteList defines the IPWhiteList middleware configuration. Deprecated: please use IPAllowList instead.
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
+#[cfg_attr(feature = "builder", derive(TypedBuilder))]
+#[cfg_attr(feature = "schemars", derive(JsonSchema))]
+pub struct MiddlewareTCPIpWhiteList {
     /// SourceRange defines the allowed IPs (or ranges of allowed IPs by using CIDR notation).
     #[serde(
         default,
