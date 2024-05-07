@@ -391,6 +391,14 @@ pub struct MiddlewareCircuitBreaker {
     )]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub recovery_duration: Option<IntOrString>,
+    /// ResponseCode is the status code that the circuit breaker will return while it is in the open state.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "responseCode"
+    )]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub response_code: Option<i64>,
 }
 
 /// Compress holds the compress middleware configuration.
