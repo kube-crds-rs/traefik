@@ -9,6 +9,7 @@ mod prelude {
     #[cfg(feature = "schemars")]
     pub use schemars::JsonSchema;
     pub use serde::{Deserialize, Serialize};
+    pub use std::collections::BTreeMap;
     #[cfg(feature = "builder")]
     pub use typed_builder::TypedBuilder;
 }
@@ -44,6 +45,14 @@ pub struct TraefikServiceSpec {
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct TraefikServiceMirroring {
+    /// Healthcheck defines health checks for ExternalName services.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "healthCheck"
+    )]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub health_check: Option<TraefikServiceMirroringHealthCheck>,
     /// Kind defines the kind of the Service.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
@@ -76,6 +85,17 @@ pub struct TraefikServiceMirroring {
     #[serde(default, skip_serializing_if = "Option::is_none", rename = "nativeLB")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub native_lb: Option<bool>,
+    /// NodePortLB controls, when creating the load-balancer,
+    /// whether the LB's children are directly the nodes internal IPs using the nodePort when the service type is NodePort.
+    /// It allows services to be reachable when Traefik runs externally from the Kubernetes cluster but within the same network of the nodes.
+    /// By default, NodePortLB is false.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "nodePortLB"
+    )]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub node_port_lb: Option<bool>,
     /// PassHostHeader defines whether the client Host header is forwarded to the upstream Kubernetes Service.
     /// By default, passHostHeader is true.
     #[serde(
@@ -114,7 +134,7 @@ pub struct TraefikServiceMirroring {
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub servers_transport: Option<String>,
     /// Sticky defines the sticky sessions configuration.
-    /// More info: https://doc.traefik.io/traefik/v3.0/routing/services/#sticky-sessions
+    /// More info: https://doc.traefik.io/traefik/v3.1/routing/services/#sticky-sessions
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub sticky: Option<TraefikServiceMirroringSticky>,
@@ -130,6 +150,66 @@ pub struct TraefikServiceMirroring {
     pub weight: Option<i64>,
 }
 
+/// Healthcheck defines health checks for ExternalName services.
+#[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
+#[cfg_attr(feature = "builder", derive(TypedBuilder))]
+#[cfg_attr(feature = "schemars", derive(JsonSchema))]
+pub struct TraefikServiceMirroringHealthCheck {
+    /// FollowRedirects defines whether redirects should be followed during the health check calls.
+    /// Default: true
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "followRedirects"
+    )]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub follow_redirects: Option<bool>,
+    /// Headers defines custom headers to be sent to the health check endpoint.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub headers: Option<BTreeMap<String, String>>,
+    /// Hostname defines the value of hostname in the Host header of the health check request.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub hostname: Option<String>,
+    /// Interval defines the frequency of the health check calls.
+    /// Default: 30s
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub interval: Option<IntOrString>,
+    /// Method defines the healthcheck method.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub method: Option<String>,
+    /// Mode defines the health check mode.
+    /// If defined to grpc, will use the gRPC health check protocol to probe the server.
+    /// Default: http
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub mode: Option<String>,
+    /// Path defines the server URL path for the health check endpoint.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub path: Option<String>,
+    /// Port defines the server URL port for the health check endpoint.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub port: Option<i64>,
+    /// Scheme replaces the server URL scheme for the health check endpoint.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub scheme: Option<String>,
+    /// Status defines the expected HTTP status code of the response to the health check request.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub status: Option<i64>,
+    /// Timeout defines the maximum duration Traefik will wait for a health check request before considering the server unhealthy.
+    /// Default: 5s
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub timeout: Option<IntOrString>,
+}
+
 /// Mirroring defines the Mirroring service configuration.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
@@ -143,6 +223,14 @@ pub enum TraefikServiceMirroringKind {
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct TraefikServiceMirroringMirrors {
+    /// Healthcheck defines health checks for ExternalName services.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "healthCheck"
+    )]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub health_check: Option<TraefikServiceMirroringMirrorsHealthCheck>,
     /// Kind defines the kind of the Service.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
@@ -161,6 +249,17 @@ pub struct TraefikServiceMirroringMirrors {
     #[serde(default, skip_serializing_if = "Option::is_none", rename = "nativeLB")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub native_lb: Option<bool>,
+    /// NodePortLB controls, when creating the load-balancer,
+    /// whether the LB's children are directly the nodes internal IPs using the nodePort when the service type is NodePort.
+    /// It allows services to be reachable when Traefik runs externally from the Kubernetes cluster but within the same network of the nodes.
+    /// By default, NodePortLB is false.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "nodePortLB"
+    )]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub node_port_lb: Option<bool>,
     /// PassHostHeader defines whether the client Host header is forwarded to the upstream Kubernetes Service.
     /// By default, passHostHeader is true.
     #[serde(
@@ -204,7 +303,7 @@ pub struct TraefikServiceMirroringMirrors {
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub servers_transport: Option<String>,
     /// Sticky defines the sticky sessions configuration.
-    /// More info: https://doc.traefik.io/traefik/v3.0/routing/services/#sticky-sessions
+    /// More info: https://doc.traefik.io/traefik/v3.1/routing/services/#sticky-sessions
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub sticky: Option<TraefikServiceMirroringMirrorsSticky>,
@@ -218,6 +317,66 @@ pub struct TraefikServiceMirroringMirrors {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub weight: Option<i64>,
+}
+
+/// Healthcheck defines health checks for ExternalName services.
+#[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
+#[cfg_attr(feature = "builder", derive(TypedBuilder))]
+#[cfg_attr(feature = "schemars", derive(JsonSchema))]
+pub struct TraefikServiceMirroringMirrorsHealthCheck {
+    /// FollowRedirects defines whether redirects should be followed during the health check calls.
+    /// Default: true
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "followRedirects"
+    )]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub follow_redirects: Option<bool>,
+    /// Headers defines custom headers to be sent to the health check endpoint.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub headers: Option<BTreeMap<String, String>>,
+    /// Hostname defines the value of hostname in the Host header of the health check request.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub hostname: Option<String>,
+    /// Interval defines the frequency of the health check calls.
+    /// Default: 30s
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub interval: Option<IntOrString>,
+    /// Method defines the healthcheck method.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub method: Option<String>,
+    /// Mode defines the health check mode.
+    /// If defined to grpc, will use the gRPC health check protocol to probe the server.
+    /// Default: http
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub mode: Option<String>,
+    /// Path defines the server URL path for the health check endpoint.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub path: Option<String>,
+    /// Port defines the server URL port for the health check endpoint.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub port: Option<i64>,
+    /// Scheme replaces the server URL scheme for the health check endpoint.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub scheme: Option<String>,
+    /// Status defines the expected HTTP status code of the response to the health check request.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub status: Option<i64>,
+    /// Timeout defines the maximum duration Traefik will wait for a health check request before considering the server unhealthy.
+    /// Default: 5s
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub timeout: Option<IntOrString>,
 }
 
 /// MirrorService holds the mirror configuration.
@@ -248,7 +407,7 @@ pub struct TraefikServiceMirroringMirrorsResponseForwarding {
 }
 
 /// Sticky defines the sticky sessions configuration.
-/// More info: https://doc.traefik.io/traefik/v3.0/routing/services/#sticky-sessions
+/// More info: https://doc.traefik.io/traefik/v3.1/routing/services/#sticky-sessions
 #[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
@@ -309,7 +468,7 @@ pub struct TraefikServiceMirroringResponseForwarding {
 }
 
 /// Sticky defines the sticky sessions configuration.
-/// More info: https://doc.traefik.io/traefik/v3.0/routing/services/#sticky-sessions
+/// More info: https://doc.traefik.io/traefik/v3.1/routing/services/#sticky-sessions
 #[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
@@ -360,7 +519,7 @@ pub struct TraefikServiceWeighted {
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub services: Option<Vec<TraefikServiceWeightedServices>>,
     /// Sticky defines whether sticky sessions are enabled.
-    /// More info: https://doc.traefik.io/traefik/v3.0/routing/providers/kubernetes-crd/#stickiness-and-load-balancing
+    /// More info: https://doc.traefik.io/traefik/v3.1/routing/providers/kubernetes-crd/#stickiness-and-load-balancing
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub sticky: Option<TraefikServiceWeightedSticky>,
@@ -371,6 +530,14 @@ pub struct TraefikServiceWeighted {
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct TraefikServiceWeightedServices {
+    /// Healthcheck defines health checks for ExternalName services.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "healthCheck"
+    )]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub health_check: Option<TraefikServiceWeightedServicesHealthCheck>,
     /// Kind defines the kind of the Service.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
@@ -389,6 +556,17 @@ pub struct TraefikServiceWeightedServices {
     #[serde(default, skip_serializing_if = "Option::is_none", rename = "nativeLB")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub native_lb: Option<bool>,
+    /// NodePortLB controls, when creating the load-balancer,
+    /// whether the LB's children are directly the nodes internal IPs using the nodePort when the service type is NodePort.
+    /// It allows services to be reachable when Traefik runs externally from the Kubernetes cluster but within the same network of the nodes.
+    /// By default, NodePortLB is false.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "nodePortLB"
+    )]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub node_port_lb: Option<bool>,
     /// PassHostHeader defines whether the client Host header is forwarded to the upstream Kubernetes Service.
     /// By default, passHostHeader is true.
     #[serde(
@@ -427,7 +605,7 @@ pub struct TraefikServiceWeightedServices {
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub servers_transport: Option<String>,
     /// Sticky defines the sticky sessions configuration.
-    /// More info: https://doc.traefik.io/traefik/v3.0/routing/services/#sticky-sessions
+    /// More info: https://doc.traefik.io/traefik/v3.1/routing/services/#sticky-sessions
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub sticky: Option<TraefikServiceWeightedServicesSticky>,
@@ -441,6 +619,66 @@ pub struct TraefikServiceWeightedServices {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub weight: Option<i64>,
+}
+
+/// Healthcheck defines health checks for ExternalName services.
+#[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
+#[cfg_attr(feature = "builder", derive(TypedBuilder))]
+#[cfg_attr(feature = "schemars", derive(JsonSchema))]
+pub struct TraefikServiceWeightedServicesHealthCheck {
+    /// FollowRedirects defines whether redirects should be followed during the health check calls.
+    /// Default: true
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "followRedirects"
+    )]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub follow_redirects: Option<bool>,
+    /// Headers defines custom headers to be sent to the health check endpoint.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub headers: Option<BTreeMap<String, String>>,
+    /// Hostname defines the value of hostname in the Host header of the health check request.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub hostname: Option<String>,
+    /// Interval defines the frequency of the health check calls.
+    /// Default: 30s
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub interval: Option<IntOrString>,
+    /// Method defines the healthcheck method.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub method: Option<String>,
+    /// Mode defines the health check mode.
+    /// If defined to grpc, will use the gRPC health check protocol to probe the server.
+    /// Default: http
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub mode: Option<String>,
+    /// Path defines the server URL path for the health check endpoint.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub path: Option<String>,
+    /// Port defines the server URL port for the health check endpoint.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub port: Option<i64>,
+    /// Scheme replaces the server URL scheme for the health check endpoint.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub scheme: Option<String>,
+    /// Status defines the expected HTTP status code of the response to the health check request.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub status: Option<i64>,
+    /// Timeout defines the maximum duration Traefik will wait for a health check request before considering the server unhealthy.
+    /// Default: 5s
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub timeout: Option<IntOrString>,
 }
 
 /// Service defines an upstream HTTP service to proxy traffic to.
@@ -471,7 +709,7 @@ pub struct TraefikServiceWeightedServicesResponseForwarding {
 }
 
 /// Sticky defines the sticky sessions configuration.
-/// More info: https://doc.traefik.io/traefik/v3.0/routing/services/#sticky-sessions
+/// More info: https://doc.traefik.io/traefik/v3.1/routing/services/#sticky-sessions
 #[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
@@ -513,7 +751,7 @@ pub struct TraefikServiceWeightedServicesStickyCookie {
 }
 
 /// Sticky defines whether sticky sessions are enabled.
-/// More info: https://doc.traefik.io/traefik/v3.0/routing/providers/kubernetes-crd/#stickiness-and-load-balancing
+/// More info: https://doc.traefik.io/traefik/v3.1/routing/providers/kubernetes-crd/#stickiness-and-load-balancing
 #[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]

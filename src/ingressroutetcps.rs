@@ -31,7 +31,7 @@ use self::prelude::*;
 pub struct IngressRouteTCPSpec {
     /// EntryPoints defines the list of entry point names to bind to.
     /// Entry points have to be configured in the static configuration.
-    /// More info: https://doc.traefik.io/traefik/v3.0/routing/entrypoints/
+    /// More info: https://doc.traefik.io/traefik/v3.1/routing/entrypoints/
     /// Default: all.
     #[serde(
         default,
@@ -44,7 +44,7 @@ pub struct IngressRouteTCPSpec {
     #[cfg_attr(feature = "builder", builder(default))]
     pub routes: Vec<IngressRouteTCPRoutes>,
     /// TLS defines the TLS configuration on a layer 4 / TCP Route.
-    /// More info: https://doc.traefik.io/traefik/v3.0/routing/routers/#tls_1
+    /// More info: https://doc.traefik.io/traefik/v3.1/routing/routers/#tls_1
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub tls: Option<IngressRouteTCPTls>,
@@ -56,7 +56,7 @@ pub struct IngressRouteTCPSpec {
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct IngressRouteTCPRoutes {
     /// Match defines the router's rule.
-    /// More info: https://doc.traefik.io/traefik/v3.0/routing/routers/#rule_1
+    /// More info: https://doc.traefik.io/traefik/v3.1/routing/routers/#rule_1
     #[serde(rename = "match")]
     pub r#match: String,
     /// Middlewares defines the list of references to MiddlewareTCP resources.
@@ -64,7 +64,7 @@ pub struct IngressRouteTCPRoutes {
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub middlewares: Option<Vec<IngressRouteTCPRoutesMiddlewares>>,
     /// Priority defines the router's priority.
-    /// More info: https://doc.traefik.io/traefik/v3.0/routing/routers/#priority_1
+    /// More info: https://doc.traefik.io/traefik/v3.1/routing/routers/#priority_1
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub priority: Option<i64>,
@@ -73,7 +73,7 @@ pub struct IngressRouteTCPRoutes {
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub services: Option<Vec<IngressRouteTCPRoutesServices>>,
     /// Syntax defines the router's rule syntax.
-    /// More info: https://doc.traefik.io/traefik/v3.0/routing/routers/#rulesyntax_1
+    /// More info: https://doc.traefik.io/traefik/v3.1/routing/routers/#rulesyntax_1
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub syntax: Option<String>,
@@ -110,11 +110,22 @@ pub struct IngressRouteTCPRoutesServices {
     #[serde(default, skip_serializing_if = "Option::is_none", rename = "nativeLB")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub native_lb: Option<bool>,
+    /// NodePortLB controls, when creating the load-balancer,
+    /// whether the LB's children are directly the nodes internal IPs using the nodePort when the service type is NodePort.
+    /// It allows services to be reachable when Traefik runs externally from the Kubernetes cluster but within the same network of the nodes.
+    /// By default, NodePortLB is false.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        rename = "nodePortLB"
+    )]
+    #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
+    pub node_port_lb: Option<bool>,
     /// Port defines the port of a Kubernetes Service.
     /// This can be a reference to a named port.
     pub port: IntOrString,
     /// ProxyProtocol defines the PROXY protocol configuration.
-    /// More info: https://doc.traefik.io/traefik/v3.0/routing/services/#proxy-protocol
+    /// More info: https://doc.traefik.io/traefik/v3.1/routing/services/#proxy-protocol
     #[serde(
         default,
         skip_serializing_if = "Option::is_none",
@@ -156,7 +167,7 @@ pub struct IngressRouteTCPRoutesServices {
 }
 
 /// ProxyProtocol defines the PROXY protocol configuration.
-/// More info: https://doc.traefik.io/traefik/v3.0/routing/services/#proxy-protocol
+/// More info: https://doc.traefik.io/traefik/v3.1/routing/services/#proxy-protocol
 #[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
@@ -168,14 +179,14 @@ pub struct IngressRouteTCPRoutesServicesProxyProtocol {
 }
 
 /// TLS defines the TLS configuration on a layer 4 / TCP Route.
-/// More info: https://doc.traefik.io/traefik/v3.0/routing/routers/#tls_1
+/// More info: https://doc.traefik.io/traefik/v3.1/routing/routers/#tls_1
 #[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
 pub struct IngressRouteTCPTls {
     /// CertResolver defines the name of the certificate resolver to use.
     /// Cert resolvers have to be configured in the static configuration.
-    /// More info: https://doc.traefik.io/traefik/v3.0/https/acme/#certificate-resolvers
+    /// More info: https://doc.traefik.io/traefik/v3.1/https/acme/#certificate-resolvers
     #[serde(
         default,
         skip_serializing_if = "Option::is_none",
@@ -184,13 +195,13 @@ pub struct IngressRouteTCPTls {
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub cert_resolver: Option<String>,
     /// Domains defines the list of domains that will be used to issue certificates.
-    /// More info: https://doc.traefik.io/traefik/v3.0/routing/routers/#domains
+    /// More info: https://doc.traefik.io/traefik/v3.1/routing/routers/#domains
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub domains: Option<Vec<IngressRouteTCPTlsDomains>>,
     /// Options defines the reference to a TLSOption, that specifies the parameters of the TLS connection.
     /// If not defined, the `default` TLSOption is used.
-    /// More info: https://doc.traefik.io/traefik/v3.0/https/tls/#tls-options
+    /// More info: https://doc.traefik.io/traefik/v3.1/https/tls/#tls-options
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[cfg_attr(feature = "builder", builder(default, setter(strip_option)))]
     pub options: Option<IngressRouteTCPTlsOptions>,
@@ -230,7 +241,7 @@ pub struct IngressRouteTCPTlsDomains {
 
 /// Options defines the reference to a TLSOption, that specifies the parameters of the TLS connection.
 /// If not defined, the `default` TLSOption is used.
-/// More info: https://doc.traefik.io/traefik/v3.0/https/tls/#tls-options
+/// More info: https://doc.traefik.io/traefik/v3.1/https/tls/#tls-options
 #[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]

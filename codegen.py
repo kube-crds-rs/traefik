@@ -11,20 +11,20 @@ def pascal_to_snake(s):
     return "".join(["_" + c.lower() if c.isupper() else c for c in s]).lstrip("_")
 
 
-rust_lib = """//! Kubernetes CRDs for Traefik v3.0.0
+rust_lib = """//! Kubernetes CRDs for Traefik v3.1.0
 //!
-//! This library provides automatically generated types for the [Traefik v3.0.0 CRD definitions]. It is
+//! This library provides automatically generated types for the [Traefik v3.1.0 CRD definitions]. It is
 //! intended to be used with the [Kube-rs] library.
 //!
-//! [Traefik v3.0.0 CRD definitions]: https://raw.githubusercontent.com/traefik/traefik/v3.0.0/integration/fixtures/k8s/01-traefik-crd.yml
+//! [Traefik v3.1.0 CRD definitions]: https://raw.githubusercontent.com/traefik/traefik/v3.1.0/integration/fixtures/k8s/01-traefik-crd.yml
 //! [Kube-rs]: https://kube.rs/
 
 """
 
-# Download https://raw.githubusercontent.com/traefik/traefik/v3.0.0/integration/fixtures/k8s/01-traefik-crd.yml and save it as traefik-crd.yml
+# Download https://raw.githubusercontent.com/traefik/traefik/v3.1.0/integration/fixtures/k8s/01-traefik-crd.yml and save it as traefik-crd.yml
 crds = yaml.safe_load_all(
     requests.get(
-        "https://raw.githubusercontent.com/traefik/traefik/v3.0.0/integration/fixtures/k8s/01-traefik-crd.yml"
+        "https://raw.githubusercontent.com/traefik/traefik/v3.1.0/integration/fixtures/k8s/01-traefik-crd.yml"
     ).text
 )
 for crd in crds:

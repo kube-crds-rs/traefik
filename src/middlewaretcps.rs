@@ -38,7 +38,7 @@ pub struct MiddlewareTCPSpec {
     pub in_flight_conn: Option<MiddlewareTCPInFlightConn>,
     /// IPAllowList defines the IPAllowList middleware configuration.
     /// This middleware accepts/refuses connections based on the client IP.
-    /// More info: https://doc.traefik.io/traefik/v3.0/middlewares/tcp/ipallowlist/
+    /// More info: https://doc.traefik.io/traefik/v3.1/middlewares/tcp/ipallowlist/
     #[serde(
         default,
         skip_serializing_if = "Option::is_none",
@@ -49,7 +49,7 @@ pub struct MiddlewareTCPSpec {
     /// IPWhiteList defines the IPWhiteList middleware configuration.
     /// This middleware accepts/refuses connections based on the client IP.
     /// Deprecated: please use IPAllowList instead.
-    /// More info: https://doc.traefik.io/traefik/v3.0/middlewares/tcp/ipwhitelist/
+    /// More info: https://doc.traefik.io/traefik/v3.1/middlewares/tcp/ipwhitelist/
     #[serde(
         default,
         skip_serializing_if = "Option::is_none",
@@ -73,7 +73,7 @@ pub struct MiddlewareTCPInFlightConn {
 
 /// IPAllowList defines the IPAllowList middleware configuration.
 /// This middleware accepts/refuses connections based on the client IP.
-/// More info: https://doc.traefik.io/traefik/v3.0/middlewares/tcp/ipallowlist/
+/// More info: https://doc.traefik.io/traefik/v3.1/middlewares/tcp/ipallowlist/
 #[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
@@ -91,7 +91,7 @@ pub struct MiddlewareTCPIpAllowList {
 /// IPWhiteList defines the IPWhiteList middleware configuration.
 /// This middleware accepts/refuses connections based on the client IP.
 /// Deprecated: please use IPAllowList instead.
-/// More info: https://doc.traefik.io/traefik/v3.0/middlewares/tcp/ipwhitelist/
+/// More info: https://doc.traefik.io/traefik/v3.1/middlewares/tcp/ipwhitelist/
 #[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq)]
 #[cfg_attr(feature = "builder", derive(TypedBuilder))]
 #[cfg_attr(feature = "schemars", derive(JsonSchema))]
